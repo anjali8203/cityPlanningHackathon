@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}Create New Journal Entry!{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Create a New Journal Entry</h1>
+    <p>Fill out the form below to start a new journal entry.</p>
+
+    <!-- Collapsible Suggested Journal Prompts Section -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>
+                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#journalPrompts"
+                    aria-expanded="false" aria-controls="journalPrompts">
+                    Suggested Journal Prompts
+                </button>
+            </h5>
+        </div>
+        <div id="journalPrompts" class="collapse">
+            <div class="card-body">
+                <ul>
+                    <li>What was the highlight of your trip?</li>
+                    <li>Describe the most breathtaking view you encountered.</li>
+                    <li>What made this destination memorable compared to others?</li>
+                    <li>What unique cultural traditions did you observe?</li>
+                    <li>Describe a local festival, event, or celebration you attended.</li>
+                    <li>What did you learn about the city’s history or customs?</li>
+                    <li>What was the best meal you had during your trip?</li>
+                    <li>Describe an unexpected food experience you had.</li>
+                    <li>Did you try any local delicacies? What was your reaction?</li>
+                    <li>How did this trip change your perspective?</li>
+                    <li>What lessons did you learn during your travels?</li>
+                    <li>Describe a moment of personal discovery or growth.</li>
+                    <li>Did you meet any interesting locals? Share their story.</li>
+                    <li>Describe a random act of kindness you witnessed or experienced.</li>
+                    <li>Who did you travel with, and how did they influence your trip?</li>
+                    <li>What was your most adventurous experience on this trip?</li>
+                    <li>Describe an unexpected detour or adventure you had.</li>
+                    <li>Did you explore any hidden gems or off-the-beaten-path locations?</li>
+                    <li>If you could revisit this destination, what would you do differently?</li>
+                    <li>What is your next dream travel destination, and why?</li>
+                    <li>How has this trip inspired your future travel plans?</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <form method="post" action="{% url 'create_project' %}">
+        {% csrf_token %}
+
+        <!-- City Dropdown -->
+        <div class="mb-3">
+            <label for="id_city" class="form-label">Select a City</label>
+            {{ form.city }}
+        </div>
+
+        <!-- Other Form Fields (Exclude 'location' and 'city') -->
+        {% bootstrap_form form exclude="location,city" %}
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-block">Create Journal Entry</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
