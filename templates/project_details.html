@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} Details{% endblock %}
+
+{% block styles %}
+.container {
+padding: 2rem;
+max-width: 800px;
+margin: 0 auto;
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.file-preview {
+margin-top: 1rem;
+display: block;
+max-width: 100%;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+.messages {
+overflow-y: auto;
+max-height: 20rem;
+}
+.disabled-button {
+pointer-events: none;
+opacity: 0.6;
+}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <!-- Display messages at the top -->
+    {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <h1>{{ project.title }}</h1>
+    <p><strong>Description:</strong> {{ project.description }}</p>
+    <p><strong>Owner:</strong> {{ project.owner.first_name }}</p>
+    <p><strong>Travel Start Date:</strong> {{ project.due_date|date:"Y-m-d" }}</p>
+
+    <h3>Messages</h3>
+    <div class="list-group messages">
+        {% for message in project.messages.all %}
+        <div class="list-group-item">
+            <p><strong>{{ message.author.first_name }}</strong> <small>{{ message.timestamp|date:"Y-m-d H:i" }}</small>
+            </p>
+            <p>{{ message.content }}</p>
+        </div>
+        {% empty %}
+        <div class="list-group-item">No messages yet.</div>
+        {% endfor %}
+    </div>
+
+    <!-- Link to Post Message -->
+    <a href="{% url 'post_message' project.id %}" class="btn btn-secondary {% if is_pma %}disabled{% endif %}">Post a
+        Message</a>
+
+    {% if request.user == project.owner %}
+    <!-- Delete Button -->
+    <form action="{% url 'delete_project' project.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Project</button>
+    </form>
+    {% endif %}
+
+    <!-- {% if project.owner != request.user and request.user in project.members.all %}
+    <form action="{% url 'leave_project' project.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Leave Project</button>
+    </form>
+    {% endif %} -->
+</div>
+{% endblock %}

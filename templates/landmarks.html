@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ city_name|title }} Landmarks{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Top Landmarks in {{ city_name|title }}</h1>
+    <div class="row mt-4">
+        {% for landmark in landmarks %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <input type="checkbox" id="landmark-{{ forloop.counter }}" class="landmark-checkbox"
+                            data-points="{{ landmark.points }}" data-landmark="{{ landmark.name }}">
+                        <label for="landmark-{{ forloop.counter }}">{{ landmark.name }}</label>
+                        <span class="badge bg-success">+{{ landmark.points }} points</span>
+                    </h5>
+                    <p class="card-text">{{ landmark.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No landmarks found for this city.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Button to Add Points -->
+    <div class="text-center">
+        <a id="journalButton" href="{% url 'create_project' %}" class="btn btn-success btn-lg">
+            <i class="fas fa-book"></i> Make a Journal Entry!
+        </a>
+    </div>
+
+    <!-- Local Businesses Redemption Section -->
+    <div class="mt-5">
+        <h2 class="text-center">Local Businesses Where You Can Redeem Your Points!</h2>
+        <p class="text-center">Support small businesses and enjoy exclusive rewards with your points.</p>
+        <div class="row mt-4">
+            {% for business in local_businesses %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ business.name }}</h5>
+                        <p class="card-text">
+                            <strong>Location:</strong> {{ business.location }}<br>
+                            <strong>Points Required:</strong> {{ business.points_required }}<br>
+                            <strong>Reward:</strong> {{ business.reward }}<br>
+                            <!-- Replace the plain link with a button -->
+                            <a href="{{ business.website }}" target="_blank" class="btn btn-primary mt-2">Website</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No partnered businesses found for this city.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Photo Upload Modal -->
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="photoModalLabel">Upload Photo as Proof</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="photoForm">
+                        <div class="mb-3">
+                            <label for="photoInput" class="form-label">Choose a photo</label>
+                            <input type="file" class="form-control" id="photoInput" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track total points
+        let totalPoints = 0;
+
+        // Handle landmark checkbox clicks
+        document.querySelectorAll('.landmark-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const points = parseInt(this.dataset.points);
+                const landmarkName = this.dataset.landmark;
+
+                if (this.checked) {
+                    // Show the photo upload modal
+                    const modal = new bootstrap.Modal(document.getElementById('photoModal'));
+                    modal.show();
+
+                    // Handle photo upload form submission
+                    document.getElementById('photoForm').addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const fileInput = document.getElementById('photoInput');
+                        if (fileInput.files.length > 0) {
+                            // Simulate photo upload (frontend only)
+                            alert(`Photo uploaded for ${landmarkName}! You earned ${points} points.`);
+                            totalPoints += points;
+                            updateNavbarPoints(totalPoints);
+                            modal.hide();
+                        } else {
+                            alert('Please select a photo.');
+                        }
+                    });
+                } else {
+                    totalPoints -= points;
+                    updateNavbarPoints(totalPoints);
+                }
+            });
+        });
+
+        // Update the points in the navbar
+        function updateNavbarPoints(points) {
+            const pointsElement = document.getElementById('pointsTracker');
+            if (pointsElement) {
+                pointsElement.textContent = `Points: ${points}`;
+            }
+        }
+    </script>
+    {% endblock %}

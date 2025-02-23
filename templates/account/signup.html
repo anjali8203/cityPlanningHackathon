@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-primary">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Sign up for SkyTracker</h2>
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+          </form>
+
+          <hr class="my-4">
+
+          <div class="text-center">
+            <p class="text-muted">Or</p>
+            <a href="{% provider_login_url 'google' %}" class="btn btn-outline-secondary">
+              <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="mr-2">
+              Sign up with Google
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(to top, #87CEEB, #FFFFFF);
+    min-height: 100vh;
+  }
+
+  .border-primary {
+    border-color: #007bff !important;
+  }
+
+  .card {
+    background-color: #f8f9fa;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+  }
+</style>
+{% endblock %}

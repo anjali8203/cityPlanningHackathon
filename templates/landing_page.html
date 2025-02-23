@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}CityExplorer - Discover, Explore, Redeem{% endblock %}
+
+{% block styles %}
+.hero {
+background: linear-gradient(to bottom right, #007bff, #00aaff);
+color: #fff;
+text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+padding: 80px 20px;
+text-align: center;
+margin: 2rem;
+}
+
+
+.hero h1 {
+font-size: 2.5rem;
+font-weight: bold;
+}
+
+
+.hero p {
+font-size: 1.2rem;
+margin-top: 15px;
+}
+
+
+.features h3 {
+margin-top: 15px;
+}
+
+
+.feature-icon {
+font-size: 2.5rem;
+color: #007bff;
+}
+
+
+.cta {
+background-color: #007bff;
+color: #fff;
+padding: 30px 20px;
+text-align: center;
+border-radius: 8px;
+margin-top: 30px;
+}
+
+
+.cta a {
+color: #fff;
+font-weight: bold;
+text-decoration: none;
+}
+
+
+.cta a:hover {
+text-decoration: underline;
+}
+
+
+.container {
+max-width: 960px;
+margin: 0 auto;
+}
+
+
+.btn-block {
+width: 100%;
+}
+
+
+.btn-signup {
+display: inline-block;
+font-size: 1.5rem;
+font-weight: bold;
+text-transform: uppercase;
+padding: 15px 30px;
+color: #fff;
+background-color: #007bff;
+border: none;
+border-radius: 50px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+transition: all 0.3s ease-in-out;
+width: auto;
+text-align: center;
+margin: 20px auto;
+}
+
+
+.btn-signup:hover {
+background-color: #0056b3;
+transform: scale(1.05);
+text-decoration: none;
+}
+{% endblock %}
+
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to CityExplorer</h1>
+    <p>Discover landmarks and create journal entries to earn points that can be redeemed at local businesses!</p>
+</div>
+
+
+<div id="features" class="container mt-4">
+    <h2 class="text-center">Why Use CityExplorer?</h2>
+    <div class="row mt-3">
+        <div class="col-md-4 text-center">
+            <i class="fa fa-map-marker-alt feature-icon"></i>
+            <h3>Explore Cities</h3>
+            <p>Choose a city from our dropdown and discover its most iconic landmarks and hidden gems.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <i class="fa fa-trophy feature-icon"></i>
+            <h3>Earn Points</h3>
+            <p>Visit landmarks and create journal entries to earn points as you explore.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <i class="fa fa-gift feature-icon"></i>
+            <h3>Redeem Rewards</h3>
+            <p>Use your points to get discounts and special offers at local businesses in the city.</p>
+        </div>
+    </div>
+</div>
+
+
+{% if not user.is_authenticated %}
+<div class="text-center">
+    <form method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-signup">Sign Up Now</button>
+    </form>
+</div>
+{% endif %}
+
+
+<!-- ADDITION: How to Use CityExplorer Section -->
+<div class="container mt-5">
+    <h2 class="text-center">🌍 Welcome to CityExplorer: Your Ultimate Travel Companion!</h2>
+    <p class="text-center">Discover, Earn, and Reflect on Every Adventure!</p>
+
+
+    <p>CityExplorer is designed to make your travel experiences unforgettable while rewarding your exploration! Here's
+        how to get started:</p>
+
+
+    <h3>🏙️ 1. Choose Your City</h3>
+    <p>Begin your journey by selecting the city you're planning to visit from the dropdown menu at the top. Once you’ve
+        chosen your destination, you'll unlock a list of top landmarks to explore.</p>
+
+
+    <h3>📍 2. Explore Landmarks & Earn Points</h3>
+    <ul>
+        <li>Visit the landmarks in real life.</li>
+        <li>Upload a photo as proof of your adventure.</li>
+        <li>Mark the landmark as visited to collect points!</li>
+    </ul>
+    <p>Your points will automatically update on the top bar, keeping track of all your travel achievements.</p>
+
+
+    <h3>🎁 3. Redeem Rewards at Local Businesses</h3>
+    <p>Support local businesses while enjoying exclusive rewards! Once you've gathered enough points, cash them in for
+        deals and discounts at participating small businesses in the city—like free desserts, coffee, or special offers.
+    </p>
+
+
+    <h3>📓 4. Reflect with Personalized Journal Entries</h3>
+    <ul>
+        <li>When you visit a city, head over to the journal section.</li>
+        <li>Fill in your experience, title your adventure, and share your thoughts.</li>
+        <li>Need inspiration? Use our <strong>Suggested Journal Prompts</strong> dropdown for ideas, from reflecting on
+            memorable meals to unexpected detours.</li>
+    </ul>
+
+
+    <h3>✈️ Start Exploring & Make Every Trip Count!</h3>
+    <p>Whether you're sightseeing, supporting local businesses, or journaling your travel stories, CityExplorer is here
+        to turn every trip into an unforgettable adventure.</p>
+    <p class="text-center font-weight-bold">Ready to discover your next journey?</p>
+</div>
+{% endblock %}

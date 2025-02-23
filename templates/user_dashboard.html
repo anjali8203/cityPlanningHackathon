@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Message -->
+    <h1 class="text-center mb-4">Welcome, {{ real_name }}!</h1>
+    <p class="text-center lead">Manage your journal entries here!</p>
+
+    <!-- Action Buttons -->
+    <div class="row justify-content-center">
+        <!-- Create Project -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h4 class="card-title"><i class="fas fa-plus-circle"></i> Create a Journal Entry</h4>
+                    <p class="card-text btn-description">Start a new journal entry.</p>
+                    <a href="{% url 'create_project' %}" class="btn btn-primary">Create Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Owned Projects -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h4 class="card-title"><i class="fas fa-book-open"></i> Your Journal Entry</h4>
+                    <p class="card-text btn-description">View and manage your journal entries.</p>
+                    <a href="{% url 'your_projects' %}" class="btn btn-primary">View Journal Entries</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+        color: #0f4a13;
+        font-weight: bold;
+    }
+
+    .card-text {
+        color: #333;
+    }
+
+    .btn-primary {
+        background-color: #0f4a13;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #73bd8a;
+    }
+
+    .dashboard-container {
+        background-image: url('path/to/your/image.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .lead {
+        color: #555;
+        font-size: 1.25rem;
+    }
+</style>
+{% endblock %}
